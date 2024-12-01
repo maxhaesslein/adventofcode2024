@@ -27,9 +27,6 @@ function prepareInput( input ) {
 	arr1 = arr1.sort();
 	arr2 = arr2.sort();
 
-	console.log(arr1);
-	console.log(arr2)
-
 	return [arr1,arr2];
 }
 
