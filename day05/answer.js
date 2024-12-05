@@ -58,6 +58,51 @@ function answer1( input ) {
 
 
 function answer2( input ) {
+	
+	var pageOrderingRules = input.pageOrderingRules,
+		updates = input.updates;
+
+	var incorrectUpdates = [];
+	for( var pages of updates ){
+		for( var page of pages ) {
+			if( ! checkCorrectOrdering( page, pages, pageOrderingRules) ) {
+				isCorrect = false;
+				incorrectUpdates.push(pages);
+				break;
+			}
+		}
+	}
+
+
+	var correctedUpdates = [];
+	for( var incorrectUpdate of incorrectUpdates ) {
+		var correctedUpdate = incorrectUpdate.sort(function(a,b){
+
+			for( var p of pageOrderingRules ) {
+				if( p[0] === a && p[1] === b ) {
+					// a before b
+					return -1;
+				} else if( p[0] === b && p[1] === a ) {
+					// b before a
+					return 1;
+				}
+			}
+
+			return 0;
+
+		});
+		correctedUpdates.push(correctedUpdate);
+	}
+
+
+	var sum = 0;
+
+	for( var correctedUpdate of correctedUpdates ) {
+		var middleNumber = correctedUpdate[Math.floor(correctedUpdate.length/2)];
+		sum += middleNumber;
+	}
+
+	return sum;
 }
 
 

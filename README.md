@@ -6,4 +6,4 @@ my solutions in JavaScript for [Advent of Code](https://adventofcode.com/) 2024
 | 02    |   ~ 65 min  |  ~ 15 min |  ~ 50 min |
 | 03    |   ~ 10 min  |   ~ 7 min |  ~  3 min |
 | 04    |   ~ 16 min  |  ~ 12 min |  ~  4 min |
-| 05    |             |  ~ 23 min |           |
+| 05    |   ~ 64 min  |  ~ 23 min |  ~ 42 min |
