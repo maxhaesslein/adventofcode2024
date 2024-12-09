@@ -9,3 +9,4 @@ my solutions in JavaScript for [Advent of Code](https://adventofcode.com/) 2024
 | 05    |   ~ 64 min  |  ~ 23 min |  ~ 42 min |
 | 06    |   ~ 30 min  |  ~ 11 min |  ~ 19 min |
 | 07    |   ~ 12 min  |  ~ 11 min |   ~ 1 min |
+| 08    |             |  ~ 23 min |           |
