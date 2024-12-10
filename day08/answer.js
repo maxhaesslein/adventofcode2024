@@ -10,16 +10,13 @@ function prepareInput( input ) {
 	return input;
 }
 
-function answer1( input ) {
+function answer1( map ) {
 
-	var frequencies = getFrequencies(input);
+	var frequencies = getFrequencies(map);
 
-	var antinodes = Array.from({ length: input.length }, function(){
-		return Array(input[0].length);
-	});
+	var antinodePositions = [];
 
-
-	for ( var [frequency, positions] of Object.entries(frequencies) ) {
+	for( var [frequency, positions] of Object.entries(frequencies) ) {
 		
 		while( positions.length ) {
 			var position = positions.shift();
@@ -28,31 +25,28 @@ function answer1( input ) {
 
 				var distance = [ position[0]-otherPosition[0], position[1]-otherPosition[1] ];
 
-				var target1 = [position[0] + distance[0], position[1] + distance[1]],
-					target2 = [otherPosition[0] - distance[0], otherPosition[1] - distance[1]];
+				var target1 = [position[0] + distance[0], position[1] + distance[1]];
+				if( map[target1[1]] && map[target1[1]][target1[0]] ) {
+					var antinodePosition = target1[0]+'/'+target1[1];
+					if( ! antinodePositions.includes(antinodePosition) ) antinodePositions.push(antinodePosition);
+				}
 
-				if( input[target1[1]] && input[target1[1]][target1[0]] ) antinodes[target1[1]][target1[0]] = "X";
-				if( input[target2[1]] && input[target2[1]][target2[0]] ) antinodes[target2[1]][target2[0]] = "X";
-
+				var target2 = [otherPosition[0] - distance[0], otherPosition[1] - distance[1]];
+				if( map[target2[1]] && map[target2[1]][target2[0]] ) {
+					var antinodePosition = target2[0]+'/'+target2[1];
+					if( ! antinodePositions.includes(antinodePosition) ) antinodePositions.push(antinodePosition);
+				}
+				
 			}
 
 		}
 
 	}
 
-
-	var sum = 0;
-	for( var y = 0; y < antinodes.length; y++ ) {
-		for( var x = 0; x < antinodes[y].length; x++ ) {
-			if( antinodes[y][x] == "X" ) sum++;
-		}
-	}
-
-
-	return sum;
+	return antinodePositions.length;
 }
 
-function answer2( input ) {
+function answer2( map ) {
 	return "?";
 }
 
