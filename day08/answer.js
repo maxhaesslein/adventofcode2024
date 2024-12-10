@@ -47,7 +47,39 @@ function answer1( map ) {
 }
 
 function answer2( map ) {
-	return "?";
+	
+	var frequencies = getFrequencies(map);
+
+	var antinodePositions = [];
+
+	for( var y = 0; y < map.length; y++ ) {
+		for( var x = 0; x < map[y].length; x++ ) {
+
+			antinodeLoop:
+			for( var [frequency, positions] of Object.entries(frequencies) ) {
+				
+				for( var i = 0; i < positions.length; i++ ) {
+					var position = positions[i];
+
+					for( var j = 0; j < positions.length; j++ ) {
+						if( j == i ) continue;
+
+						var otherPosition = positions[j];
+
+						var isBetween = (x - position[0]) * (otherPosition[1] - position[1]) === (y - position[1]) * (otherPosition[0] - position[0])
+						if( isBetween ) {
+							antinodePositions.push(x+'/'+y);
+							break antinodeLoop;
+						}
+			
+					}
+				}
+
+			}
+		}
+	}
+
+	return antinodePositions.length;
 }
 
 function getFrequencies(map) {
