@@ -38,19 +38,7 @@ function answer1( input ) {
 	var maxN = 100;
 
 	for( var n = 0; n < maxN; n++ ) {
-
-		for( var robot of input ) {
-			
-			robot.position[0] += robot.velocity[0];
-			if( robot.position[0] >= w ) robot.position[0] -= w;
-			else if( robot.position[0] < 0 ) robot.position[0] += w;
-
-			robot.position[1] += robot.velocity[1];
-			if( robot.position[1] >= h ) robot.position[1] -= h;
-			else if( robot.position[1] < 0 ) robot.position[1] += h;
-
-		}
-
+		simulate(input, w, h);
 	}
 
 	var map = Array.from({ length: h }, function(){
@@ -98,5 +86,88 @@ function answer1( input ) {
 }
 
 function answer2( input ) {
-	return "?";
+
+	var w = 101,
+		h = 103;
+
+	if( input.length < 15 ) {
+		// NOTE: our test case has a smaller sized map
+		w = 11;
+		h = 7;
+	}
+
+	var canvas = document.getElementById('canvas'),
+		ctx = canvas.getContext('2d');
+
+	canvas.width = w;
+	canvas.height = h;
+
+	var n = 0;
+
+	// lets just assume, we want to have a lot of particles in the middle area of the image
+	var maxParticles = 300,
+		middleArea = [];
+
+	var emergencyBreak = 0;
+
+	do {
+
+		middleArea = [];
+
+		simulate( input, w, h );
+
+		n++;
+
+		for( var robot of input ) {
+
+			var x = robot.position[0],
+				y = robot.position[1];
+
+			if( 
+				x > Math.floor(w/4) && x < Math.floor(w*3/4) &&
+				y > Math.floor(h/4) && y < Math.floor(h*3/4) 
+				) {
+				middleArea.push(y);
+			}
+
+		}
+
+		// in case something goes wrong ...
+		emergencyBreak++;
+		if( emergencyBreak > 10000 ) {
+			console.warn('emergency break');
+			break;
+		}
+
+	} while( middleArea.length < maxParticles );
+
+	ctx.clearRect(0,0,w,h);
+
+	for( var robot of input ) {
+
+		var x = robot.position[0],
+			y = robot.position[1];
+
+		ctx.fillRect( x, y, 1, 1 );
+		
+	}
+
+	return n+1;
+}
+
+
+function simulate(input, w, h) {
+
+	for( var robot of input ) {
+		
+		robot.position[0] += robot.velocity[0];
+		if( robot.position[0] >= w ) robot.position[0] -= w;
+		else if( robot.position[0] < 0 ) robot.position[0] += w;
+
+		robot.position[1] += robot.velocity[1];
+		if( robot.position[1] >= h ) robot.position[1] -= h;
+		else if( robot.position[1] < 0 ) robot.position[1] += h;
+
+	}
+
 }

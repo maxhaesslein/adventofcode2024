@@ -1,6 +1,6 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"/>
 
-<title>Day ?? - Advent of Code 2024</title>
+<title>Day 14 - Advent of Code 2024</title>
 
 </head><body>
 
@@ -22,10 +22,8 @@ p=9,5 v=-3,-3</textarea>
 <button class="testinput-button" data-part="1">Test-Input Part 1</button>
 </div>
 
-<div class="testinput">
-<textarea readonly class="testinput-content" data-answer="?"></textarea>
-<button class="testinput-button" data-part="2">Test-Input Part 2</button>
-</div>
+<hr>
+<p><canvas id="canvas" width="101" height="103"></canvas></p>
 
 <hr>
 <textarea id="input" style="width: 500px; height: 200px;"></textarea>
@@ -46,6 +44,10 @@ hr {
 	border: 0;
 	height: 1px;
 	background: #ddd;
+}
+canvas {
+	display: inline-block;
+	border: 1px solid black;
 }
 .testinput {
 	display: inline-block;
