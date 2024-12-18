@@ -41,7 +41,89 @@ function answer1( map ) {
 }
 
 function answer2( map ) {
-	return "?";
+
+	var visitedTiles = [];
+	var regions = [];
+
+	for( var y = 0; y < map.length; y++ ) {
+		for( var x = 0; x < map[y].length; x++ ) {
+
+			if( visitedTiles.includes(''+x+'/'+y) ) continue;
+
+			var region = expand(map,x,y,[]);
+			regions.push(region);
+
+			for( var newVisitedTile of region ) {
+				visitedTiles.push(''+newVisitedTile[0]+'/'+newVisitedTile[1]);
+			}
+		}
+	}
+
+	var price = 0;
+
+	for( var region of regions ) {
+
+		var area = region.length,
+			numberOfSides = getnumberOfSides(region);
+
+		price += area*numberOfSides;
+	}
+
+	return price;
+}
+
+
+function getnumberOfSides( region ) {
+
+	var numberOfSides = 0;
+
+	var regionFlat = region.map(function(p){return p[0]+'/'+p[1];});
+
+	for( var plot of region ) {
+
+		var x = plot[0],
+			y = plot[1];
+
+		var top = regionFlat.includes(''+(x)+'/'+(y-1)),
+			right = regionFlat.includes(''+(x+1)+'/'+(y)),
+			bottom = regionFlat.includes(''+(x)+'/'+(y+1)),
+			left = regionFlat.includes(''+(x-1)+'/'+(y)),
+			topLeft = regionFlat.includes(''+(x-1)+'/'+(y-1)),
+			bottomLeft = regionFlat.includes(''+(x-1)+'/'+(y+1)),
+			topRight = regionFlat.includes(''+(x+1)+'/'+(y-1)),
+			bottomRight = regionFlat.includes(''+(x+1)+'/'+(y+1));
+
+		// outer corners
+		if( ! left && ! top ) {
+			numberOfSides++;
+		}
+		if( ! left && ! bottom ) {
+			numberOfSides++;
+		}
+		if( ! right && ! top ) {
+			numberOfSides++;
+		}
+		if( ! right && ! bottom ) {
+			numberOfSides++;
+		}
+
+		// inner corners
+		if( left && top && ! topLeft ) {
+			numberOfSides++;
+		}
+		if( right && top && ! topRight ) {
+			numberOfSides++;
+		}
+		if( left && bottom && ! bottomLeft ) {
+			numberOfSides++;
+		}
+		if( right && bottom && ! bottomRight ) {
+			numberOfSides++;
+		}
+
+	}
+
+	return numberOfSides;
 }
 
 
