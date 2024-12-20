@@ -12,7 +12,6 @@ function prepareInput( input ) {
 
 function answer1( input ) {
 
-
 	var w = 70+1,
 		h = 70+1;
 
@@ -34,8 +33,6 @@ function answer1( input ) {
 
 	for( var i = 0; i < maxN; i++ ) {
 
-		if( i >= input.length ) break;
-
 		var coordinate = input[i],
 			x = coordinate[0],
 			y = coordinate[1];
@@ -48,17 +45,66 @@ function answer1( input ) {
 	var start = [0,0],
 		target = [w-1,h-1];
 
-	var trackedCosts = getCosts(map, start, target);
+	var cost = getCheapestPath(map, start, target);
 
-	return trackedCosts[coordinate2Id(target)];
+	return cost;
 }
 
 function answer2( input ) {
-	return "?";
+	var w = 70+1,
+		h = 70+1;
+
+	var maxN = 1024;
+
+	if( input.length < 100 ) {
+		// NOTE: the test cases have a smaller area
+		w = 6+1;
+		h = 6+1;
+		maxN = 12;
+	}
+
+	var map = Array.from({ length: h }, function(){
+		return Array.from({ length: w }, function(){
+			return ".";
+		});
+	});
+
+
+	for( var i = 0; i < maxN; i++ ) {
+
+		var coordinate = input[i],
+			x = coordinate[0],
+			y = coordinate[1];
+
+		map[y][x] = "#";
+
+	}
+
+	var start = [0,0],
+		target = [w-1,h-1];
+
+	var cost = '';
+
+	while( i < input.length ) {
+
+		var coordinate = input[i],
+			x = coordinate[0],
+			y = coordinate[1];
+
+		map[y][x] = "#";
+
+		cost = getCheapestPath(map, start, target);
+
+		if( cost === undefined ) break;
+
+		i++;
+	}
+
+	return input[i].join(',');
 }
 
 
-function getCosts( map, start, target ) {
+function getCheapestPath( map, start, target ) {
 
 	var processedNodes = [],
 		costList = [],
@@ -88,7 +134,7 @@ function getCosts( map, start, target ) {
 
 	}
 
-	return trackedCosts;
+	return trackedCosts[coordinate2Id(target)];
 }
 
 
