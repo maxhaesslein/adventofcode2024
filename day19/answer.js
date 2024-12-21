@@ -32,5 +32,50 @@ function answer1( input ) {
 }
 
 function answer2( input ) {
-	return "?";
+
+	cache = {}; // always reset the cache, d'uh ...
+
+	var patterns = input.patterns,
+		designs = input.designs;
+
+	var sum = 0n;
+
+	for( var design of designs ) {
+		sum += getNumberOfArrangements( design, patterns );
+	}
+
+	return sum;
+}
+
+
+var cache = {};
+
+function getNumberOfArrangements( design, patterns ) {
+
+	if( cache[design] ) {
+		return cache[design];
+	}
+
+	var sum = 0n;
+
+	for( pattern of patterns ) {
+
+		if( ! design.startsWith(pattern) ) {
+			continue;
+		}
+
+		var newDesign = design.substring(pattern.length);
+
+		if( newDesign.length <= 0 ) {
+			sum++;
+			break;
+		}
+
+		sum += getNumberOfArrangements( newDesign, patterns );
+
+	}
+
+	cache[design] = sum;
+
+	return sum;
 }
