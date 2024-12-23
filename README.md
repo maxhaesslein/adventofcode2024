@@ -23,7 +23,7 @@ my solutions in JavaScript for [Advent of Code](https://adventofcode.com/) 2024
 | 19    |             |   ~ 7 min |           |
 | 20    |             |           |           |
 | 21    |             |           |           |
-| 22    |             |           |           |
+| 22    |             |  ~ 22 min |           |
 | 23    |   ~ 35 min  |  ~ 26 min |   ~ 9 min |
 | 24    |             |           |           |
 | 25    |             |           |           |
