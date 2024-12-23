@@ -19,11 +19,11 @@ my solutions in JavaScript for [Advent of Code](https://adventofcode.com/) 2024
 | 15    |  ~ 100 min  |  ~ 24 min |  ~ 76 min |
 | 16    |             | ~ 132 min |           |
 | 17    |             |  ~ 35 min |           |
-| 18    |    ~ 45 min |  ~ 40 min |   ~ 5 min |
+| 18    |   ~ 45 min  |  ~ 40 min |   ~ 5 min |
 | 19    |             |   ~ 7 min |           |
 | 20    |             |           |           |
 | 21    |             |           |           |
 | 22    |             |           |           |
-| 23    |             |  ~ 26 min |           |
+| 23    |   ~ 35 min  |  ~ 26 min |   ~ 9 min |
 | 24    |             |           |           |
 | 25    |             |           |           |

@@ -5,13 +5,8 @@ function prepareInput( input ) {
 		return l.split('-');
 	});
 
-	return input;
-}
-
-function answer1( connections ) {
-
 	var connectionMap = {};
-	for( var connection of connections ) {
+	for( var connection of input ) {
 
 		var pc1 = connection[0],
 			pc2 = connection[1];
@@ -28,13 +23,18 @@ function answer1( connections ) {
 
 	}
 
+	return connectionMap;
+}
+
+function answer1( connectionMap ) {
+
 	var filteredConnections = [];
 
 	for( var pc in connectionMap ) {
 
 		if( ! pc.startsWith('t') ) continue;
 
-		var networks = getNetwork(pc, connectionMap);
+		var networks = getThreeConnectedPcs(pc, connectionMap);
 
 		for( var network of networks ) {
 			var id = network.sort().join('-');
@@ -51,12 +51,32 @@ function answer1( connections ) {
 	return filteredConnections.length;
 }
 
-function answer2( connections ) {
-	return "?";
+function answer2( connectionMap ) {
+
+	var networks = [];
+
+	for( var pc in connectionMap ) {
+
+		var network = getNetwork(pc, connectionMap, [pc]);
+
+		if( network.length <= 2 ) continue;
+
+		network = network.sort().join(',');
+
+		if( networks.includes(network) ) continue;
+
+		networks.push(network);
+	}
+
+	networks = networks.sort(function(a,b){
+		return b.length-a.length;
+	});
+
+	return networks[0];
 }
 
 
-function getNetwork( pc, connectionMap ) {
+function getThreeConnectedPcs( pc, connectionMap ) {
 
 	var networks = [];
 
@@ -77,4 +97,28 @@ function getNetwork( pc, connectionMap ) {
 	}
 
 	return networks;
+}
+
+
+function getNetwork( pc, connectionMap, network ) {
+
+	for( var connectedPc of connectionMap[pc] ) {
+
+		if( connectedPc === pc ) continue;
+		if( network.includes(connectedPc) ) continue;
+
+		var interconnected = true;
+
+		for( var subPc of network ) {
+			if( ! connectionMap[subPc].includes(connectedPc) ) {
+				interconnected = false;
+			}
+		}
+
+		if( ! interconnected ) continue;
+
+		network = getNetwork( connectedPc, connectionMap, [... network, connectedPc] );
+	}
+
+	return network;
 }
