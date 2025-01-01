@@ -44,6 +44,8 @@ function answer2( input ) {
 		sum += getNumberOfArrangements( design, patterns );
 	}
 
+	console.log(cache)
+
 	return sum;
 }
 
@@ -52,8 +54,10 @@ var cache = {};
 
 function getNumberOfArrangements( design, patterns ) {
 
-	if( cache[design] ) {
-		return cache[design];
+	var hash = simpleHash(design);
+
+	if( cache[hash] ) {
+		return cache[hash];
 	}
 
 	var sum = 0n;
@@ -75,7 +79,19 @@ function getNumberOfArrangements( design, patterns ) {
 
 	}
 
-	cache[design] = sum;
+	cache[hash] = sum;
 
 	return sum;
 }
+
+
+// a very simple hash function by jlevy, found here: https://gist.github.com/jlevy/c246006675becc446360a798e2b2d781
+const simpleHash = str => {
+	let hash = 0;
+	for (let i = 0; i < str.length; i++) {
+		const char = str.charCodeAt(i);
+		hash = (hash << 5) - hash + char;
+	}
+	// Convert to 32bit unsigned integer in base 36 and pad with "0" to ensure length is 7.
+	return (hash >>> 0).toString(36).padStart(7, '0');
+};

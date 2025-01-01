@@ -29,6 +29,34 @@ function answer1( input ) {
 }
 
 function answer2( input ) {
+
+	var count = 2000;
+
+	if( Number(input[0]) === 123 ) count = 10; // for testinput 1 (1)
+
+	for( var number of input ) {
+		var secretNumber = number;
+
+		var prevLastDigit = Number(secretNumber)%10;
+
+		for( var i = 0; i < count; i++ ) {
+
+			var lastDigit = Number(secretNumber)%10;
+
+			var dif = lastDigit-prevLastDigit;
+			prevLastDigit = lastDigit;
+			
+			console.log(secretNumber, lastDigit, dif)
+
+			var secretNumber = evolveSecretNumber(secretNumber);
+		}
+
+	}
+
+
+
+
+
 	return "?";
 }
 

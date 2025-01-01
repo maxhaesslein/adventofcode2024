@@ -10,6 +10,126 @@ function prepareInput( input ) {
 
 function answer1( map ) {
 	
+	var [ start, target ] = getStartAndTarget(map);
+
+	var trackedCosts = getCosts(map, start, target);
+
+	var minCost = Infinity
+	for( var i = 0; i < 4; i++ ){
+		var cost = trackedCosts[coordinate2Id([target[0],target[1],i])];
+		if( cost < minCost ) minCost = cost;
+	}
+
+	return minCost;
+}
+
+var pxSize = 10; // for DEBUG display
+
+function answer2( map ) {
+	
+	var [ start, target ] = getStartAndTarget(map);
+
+	var trackedCosts = getCosts(map, start, target);
+
+	console.log(trackedCosts)
+
+	// DEBUG display
+	var canvas = document.getElementById('canvas'),
+		ctx = canvas.getContext('2d');
+
+
+	canvas.width = map[0].length*pxSize;
+	canvas.height = map.length*pxSize;
+
+	for( var y = 0; y < map.length; y++ ) {
+		for( var x = 0; x < map[y].length; x++ ) {
+			var tile = map[y][x];
+
+			if( tile === "#" ) {
+				ctx.fillRect( x*pxSize, y*pxSize, pxSize, pxSize );
+			}
+		}
+	}
+	ctx.fillStyle = "orange";
+	ctx.fillRect( start[0]*pxSize, start[1]*pxSize, pxSize, pxSize );
+	// end DEBUG display
+
+	var sum = 0;
+	sum = getPathToTarget( trackedCosts, target[0], target[1], start, ctx );
+
+
+	return sum;
+}
+
+
+function getPathToTarget( trackedCosts, x, y, target, ctx ) {
+
+	if( x === target[0] && y == target[1] ) {
+		return 0; // reached target!
+	}
+
+
+	var paths = []
+
+	for( var direction = 0; direction < 4; direction++ ) {
+
+		var cost = trackedCosts[coordinate2Id([x, y, direction])];
+
+		if( ! Number.isFinite(cost) ) continue;
+
+		paths.push({
+			cost: cost,
+			x: x,
+			y: y,
+			d: direction
+		});
+
+	}
+
+	paths = paths.sort(function(a,b){
+		if( a.cost < b.cost ) {
+			return -1;
+		} else if( a.cost > b.cost ) {
+			return 1;
+		} else {
+			return 0;
+		}
+	});
+
+	if( x === 5 && y === 7 ) { // DEBUG
+		console.log(paths)
+	}
+
+	var sum = 1,
+		minCost = Infinity;
+
+	for( var path of paths ) {
+		if( path.cost > minCost ) break;
+		minCost = path.cost;
+
+		// DEBUG display
+		if( ctx ) {
+			ctx.fillRect( x*pxSize, y*pxSize, pxSize, pxSize );
+		}
+		// end DEBUG display
+
+		if( path.d === 0 ) { // previous was bottom
+			sum += getPathToTarget( trackedCosts, x, y+1, target, ctx );
+		} else if( path.d === 1 ) { // previous was left
+			sum += getPathToTarget( trackedCosts, x-1, y, target, ctx );
+		} else if( path.d === 2 ) { // previous was top
+			sum += getPathToTarget( trackedCosts, x, y-1, target, ctx );
+		} else if( path.d === 3 ) { // previous was right
+			sum += getPathToTarget( trackedCosts, x+1, y, target, ctx );
+		}
+
+	}
+
+	return sum;
+}
+
+
+function getStartAndTarget( map ) {
 	var start = false,
 		target = false;
 
@@ -26,8 +146,13 @@ function answer1( map ) {
 		}
 	}
 
-	var direction = 1; // 0 = top, 1 = right, 2 = bottom, 3 = left
+	return [start, target];
+}
 
+
+function getCosts( map, start, target ) {
+
+	var direction = 1; // 0 = top, 1 = right, 2 = bottom, 3 = left
 
 	var processedNodes = [],
 		costList = [],
@@ -51,7 +176,7 @@ function answer1( map ) {
 			var costFromNodeToChild = childrenOfNode[child],
 				costToChild = costToReachNode + costFromNodeToChild;
 
-			if( ! trackedCosts[child] || trackedCosts[child] > costToChild ) {
+			if( ! trackedCosts[child] || trackedCosts[child] >= costToChild ) {
 				addNodeCost( costList, trackedCosts, child, costToChild );
 			}
 		}
@@ -61,17 +186,7 @@ function answer1( map ) {
 		nodeId = getLowestCostNodePosition( costList );
 	}
 
-	var minCost = Infinity
-	for( var i = 0; i < 4; i++ ){
-		var cost = trackedCosts[coordinate2Id([target[0],target[1],i])];
-		if( cost < minCost ) minCost = cost;
-	}
-
-	return minCost;
-}
-
-function answer2( map ) {
-	return "?";
+	return trackedCosts;
 }
 
 

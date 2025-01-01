@@ -46,8 +46,46 @@ function getOperand( operand, regA, regB, regC ) {
 
 
 function answer1( input ) {
-
 	return runProgram( input );
+}
+
+
+function answer2( input ) {
+
+	var testA = 0;
+
+	var expectedOutput = input.prog.join(',');
+
+	while( true ) {
+
+		var testInput = {
+			regA: testA,
+			regB: input.regB,
+			regC: input.regC,
+			prog: input.prog
+		};
+
+		if( runProgram(testInput) === expectedOutput ) {
+			break;
+		}
+
+		if( testA%10000 === 0 ) {
+			console.log('testing',testA)
+		}
+
+		if( testA > 100000000 ) {
+			console.warn('emergency break');
+			break;
+		}
+
+		testA++;
+
+	}
+
+	console.log(expectedOutput)
+
+
+	return testA;
 }
 
 
@@ -85,30 +123,30 @@ function runProgram( input ) {
 				break;
 
 			case 1: // bxl
-				regB = regB ^ operand; // Bitwise XOR
+				regB = regB ^ operand;
 				instructionPointer += 2;
 				break;
 
 			case 2: // bst
-				regB = getComboOperand(operand) % 8; // Modulo 8
+				regB = getComboOperand(operand) % 8;
 				instructionPointer += 2;
 				break;
 
 			case 3: // jnz
 				if (regA !== 0) {
-					instructionPointer = operand; // Jump to literal operand
+					instructionPointer = operand;
 				} else {
 					instructionPointer += 2;
 				}
 				break;
 
 			case 4: // bxc
-				regB = regB ^ regC; // Bitwise XOR with register C
+				regB = regB ^ regC;
 				instructionPointer += 2;
 				break;
 
 			case 5: // out
-				output.push(getComboOperand(operand) % 8); // Output value modulo 8
+				output.push(getComboOperand(operand) % 8);
 				instructionPointer += 2;
 				break;
 
@@ -135,10 +173,4 @@ function runProgram( input ) {
 	}
 
 	return output.join(',');
-}
-
-
-
-function answer2( input ) {
-	return "?";
 }

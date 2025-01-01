@@ -1,96 +1,24 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"/>
 
-<title>Day 16 - Advent of Code 2024</title>
+<title>Day 21 - Advent of Code 2024</title>
 
 </head><body>
 
 <pre id="output-1"></pre><pre id="output-2"></pre><hr>
 
 <div class="testinput">
-<textarea readonly class="testinput-content" data-answer="7036">###############
-#.......#....E#
-#.#.###.#.###.#
-#.....#.#...#.#
-#.###.#####.#.#
-#.#.#.......#.#
-#.#.#####.###.#
-#...........#.#
-###.#.#####.#.#
-#...#.....#.#.#
-#.#.#.###.#.#.#
-#.....#...#.#.#
-#.###.#.#.#.#.#
-#S..#.....#...#
-###############</textarea>
-<button class="testinput-button" data-part="1">Test-Input Part 1 (1)</button>
+<textarea readonly class="testinput-content" data-answer="126384">029A
+980A
+179A
+456A
+379A</textarea>
+<button class="testinput-button" data-part="1">Test-Input Part 1</button>
 </div>
 
 <div class="testinput">
-<textarea readonly class="testinput-content" data-answer="11048">#################
-#...#...#...#..E#
-#.#.#.#.#.#.#.#.#
-#.#.#.#...#...#.#
-#.#.#.#.###.#.#.#
-#...#.#.#.....#.#
-#.#.#.#.#.#####.#
-#.#...#.#.#.....#
-#.#.#####.#.###.#
-#.#.#.......#...#
-#.#.###.#####.###
-#.#.#...#.....#.#
-#.#.#.#####.###.#
-#.#.#.........#.#
-#.#.#.#########.#
-#S#.............#
-#################</textarea>
-<button class="testinput-button" data-part="1">Test-Input Part 1 (2)</button>
+<textarea readonly class="testinput-content" data-answer="?"></textarea>
+<button class="testinput-button" data-part="2">Test-Input Part 2</button>
 </div>
-
-
-<div class="testinput">
-<textarea readonly class="testinput-content" data-answer="45">###############
-#.......#....E#
-#.#.###.#.###.#
-#.....#.#...#.#
-#.###.#####.#.#
-#.#.#.......#.#
-#.#.#####.###.#
-#...........#.#
-###.#.#####.#.#
-#...#.....#.#.#
-#.#.#.###.#.#.#
-#.....#...#.#.#
-#.###.#.#.#.#.#
-#S..#.....#...#
-###############</textarea>
-<button class="testinput-button" data-part="2">Test-Input Part 2 (1)</button>
-</div>
-
-<div class="testinput">
-<textarea readonly class="testinput-content" data-answer="64">#################
-#...#...#...#..E#
-#.#.#.#.#.#.#.#.#
-#.#.#.#...#...#.#
-#.#.#.#.###.#.#.#
-#...#.#.#.....#.#
-#.#.#.#.#.#####.#
-#.#...#.#.#.....#
-#.#.#####.#.###.#
-#.#.#.......#...#
-#.#.###.#####.###
-#.#.#...#.....#.#
-#.#.#.#####.###.#
-#.#.#.........#.#
-#.#.#.#########.#
-#S#.............#
-#################</textarea>
-<button class="testinput-button" data-part="2">Test-Input Part 2 (2)</button>
-</div>
-
-
-<hr>
-<p><canvas id="canvas" width="40" height="40"></canvas></p>
-
 
 <hr>
 <textarea id="input" style="width: 500px; height: 200px;"></textarea>
@@ -111,10 +39,6 @@ hr {
 	border: 0;
 	height: 1px;
 	background: #ddd;
-}
-canvas {
-	display: inline-block;
-	border: 1px solid black;
 }
 .testinput {
 	display: inline-block;
